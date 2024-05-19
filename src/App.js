@@ -1,42 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import Header from './components/ui/Header'
-import CharacterGrid from './components/characters/CharacterGrid'
-import Search from './components/ui/Search'
-import './App.css'
+// https://api.disneyapi.dev/character
+
+import Search from "./components/ui/Search";
+import Header from "./components/ui/Header";
+import CharacterGrid from "./components/characters/CharacterGrid";
+
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import "./App.css";
 
 const App = () => {
-  const [items, setItems] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [query, setQuery] = useState('')
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const fetchItems = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       const result = await axios(
-        `https://www.breakingbadapi.com/api/characters?name=${query}`
-      )
+        ` https://api.disneyapi.dev/character?name=${query}`
+      );
 
-      console.log(result.data)
+      console.log(result.data.data);
 
-      setItems(result.data)
-      setIsLoading(false)
-    }
+      setItems(result.data.data);
+      setIsLoading(false);
+    };
 
-    fetchItems()
-  }, [query])
-  
-  const queryFunction = (q) =>{
-    setQuery(q)
-  }
-  
+    fetchItems();
+  }, [query]);
+
+  const queryFunction = (q) => {
+    setQuery(q);
+  };
+
   return (
-    <div className='container'>
+    <div className="container">
       <Header />
       <Search getQuery={queryFunction} />
-      <CharacterGrid isLoading={isLoading} items={items} />
+      <CharacterGrid items={items} isLoading={isLoading} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
